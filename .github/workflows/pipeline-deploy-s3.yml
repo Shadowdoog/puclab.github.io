@@ -1,4 +1,4 @@
-name: Deploy Next.js to S3
+name: pipeline-deploy-s3
 
 on:
   push:
