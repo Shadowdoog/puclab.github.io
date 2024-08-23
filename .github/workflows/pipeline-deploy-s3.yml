@@ -3,7 +3,7 @@ name: pipeline-deploy-s3
 on:
   push:
     branches: [ main ]
-
+    
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -13,17 +13,16 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: '18'
-        cache: 'npm'
     - name: frontend install
-      run: npm --prefix frontend install
+      run: npm --prefix frontend install  # Ajuste conforme necessário
     - name: frontend build
-      run: npm --prefix frontend run build
+      run: npm --prefix frontend run build  # Ajuste conforme necessário
     - name: upload frontend build
       uses: actions/upload-artifact@v4
       with:
         name: build
         path: frontend/.next/server/app
-
+        
   deploy:
     runs-on: ubuntu-latest
     needs: build
@@ -32,7 +31,7 @@ jobs:
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       AWS_SESSION_TOKEN: ${{ secrets.AWS_SESSION_TOKEN }}
       AWS_EC2_METADATA_DISABLED: true
-      BUCKET_S3: ${{ vars.BUCKET_S3 }}
+      BUCKET_S3: ${{ secrets.BUCKET_S3 }}  # Supondo que BUCKET_S3 esteja nos secrets
     steps:
     - uses: actions/download-artifact@v4
       with:
