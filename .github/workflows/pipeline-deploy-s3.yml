@@ -1,4 +1,4 @@
-name: pipeline-deploy-s3
+name: Deploy Next.js to S3
 
 on:
   push:
@@ -44,6 +44,9 @@ jobs:
       with:
         name: build
         path: .next/
+
+    - name: Print bucket name for debugging
+      run: echo "Deploying to bucket: $BUCKET_S3"
 
     - name: Deploy to S3
       run: aws s3 cp .next/ s3://$BUCKET_S3 --recursive --acl public-read
